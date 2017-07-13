@@ -8,13 +8,49 @@
     <h:head>
    		<meta charset="utf-8" />
    		<meta name="viewport" content="width=device-width, intial-scale=1" />
-   		
-   		
-   		<title>#{msgs.windowTitle}</title>
+   		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
+   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   		<title>City of Vancouver</title>
     </h:head>
     <h:body>
-    	<h1>City of Vancouver</h1>
-    	<h:dataTable value="#{rooms.getWashroomData()}" var="r">
+    	<h1>City of Vancouver Public Washrooms</h1>
+    	
+    	<h:form class="well form-horizontal">
+    		<h3>Search</h3>
+    		<div class="form-group">
+    			<label class="sr-only" for="search">Search By</label>
+    		Search By: <h:selectOneMenu value="#{rooms.searchCriteria}" id="search">
+   				<f:selectItem itemValue="name" itemLabel="Name" />
+   				<f:selectItem itemValue="address" itemLabel="Address" />
+   			</h:selectOneMenu> 
+             </div>
+             <div class="form-group">
+            	<h:inputText id = "searchText" value="#{rooms.searchText}" p:placeholder="Search"/>
+            </div>
+            <h:commandButton value="Search" action="result">
+    		 <f:ajax execute="@form" render="dataTable" />
+    	   </h:commandButton>
+    	   
+    	   <h:commandButton value="Clear Search" action="#{rooms.clearSearch()}">
+    		 <f:ajax render="searchText dataTable"/>
+    	   </h:commandButton>
+        </h:form>
+    	
+    	<h:form class="form-horizontal well">
+    	 	<h3>Filters</h3>
+    		<div class="checkbox">
+    			<h:selectBooleanCheckbox value = "#{rooms.wheelChairAccess}"  />
+    			<label>Wheel Chair Access</label>
+    		 </div>
+    		 <h:commandButton value="Apply Filter" action="#{rooms.applyFilter()}" class="btn btn-danger">
+    		 <f:ajax execute="@form" render="dataTable" />
+    	   </h:commandButton>
+    	   
+    	   <h:commandButton value="Clear Filter" action="#{rooms.clearFilter()}" class="btn btn-success">
+    		 <f:ajax execute= "@form" render="@form dataTable"/>
+    	   </h:commandButton>
+    	</h:form>
+    	<h:dataTable id = "dataTable" value="#{rooms.search()}" var="r" class = "table table-striped">
 
 	<h:column>
 		<f:facet name="header">Name</f:facet>
@@ -35,10 +71,13 @@
 		<f:facet name="header">Location</f:facet>
 		#{r.location}
 	</h:column>
+	
+	<h:column>
+		<f:facet name="header">Wheel Chair Access</f:facet>
+		#{r.wheelchair_access}
+	</h:column>
 
 </h:dataTable>
-
-<script type="text/javascript" src="http://ahadith.co.uk/dh_v1.1.php"></script>
-<noscript>Please enable JavaScript to see daily hadith</noscript>
    </h:body>
+   
 </html>
