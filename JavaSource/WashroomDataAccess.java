@@ -54,7 +54,7 @@ public class WashroomDataAccess implements Serializable {
 
 
 	public ArrayList<PublicWashroom> getWashrooms() {
-		return washrooms;
+		return this.search();
 	}
 
 
@@ -96,8 +96,8 @@ public class WashroomDataAccess implements Serializable {
 		while ((inputLine = in.readLine()) != null) {
 			String[] data = inputLine.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 			PublicWashroom room = new PublicWashroom(
-					Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], data[5], 
-					data[6], data[7],
+					Integer.parseInt(data[0]), data[1], data[2], data[3], data[4].replaceAll("^\"|\"$", ""), data[5], 
+					data[6], data[7].replaceAll("^\"|\"$", "").substring(0,1),
 					data[8], Double.parseDouble(data[9]), 
 					Double.parseDouble(data[10]), data[11]
 					);
@@ -154,11 +154,11 @@ public class WashroomDataAccess implements Serializable {
 		ArrayList<PublicWashroom> rooms = new ArrayList<>();
 		for(PublicWashroom room : this.washrooms) {
 			if(this.wheelChairAccess) {
-				if(room.getWheelchair_access().equalsIgnoreCase("yes")){
+				if(room.getWheelchair_access().equalsIgnoreCase("y")){
 					rooms.add(room);
 				}
 			} else {
-				if(room.getWheelchair_access().equalsIgnoreCase("no")){
+				if(room.getWheelchair_access().equalsIgnoreCase("n")){
 					rooms.add(room);
 				}
 			}
