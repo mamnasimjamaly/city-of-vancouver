@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>City of Vancouver</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:dataTable var="tree" value="#{trees.lazyModel}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" lazy="true">
+			<p:column headerText="Id" filterBy="#{tree.treeId}">
+				<h:outputText value="#{tree.treeId}" />
+			</p:column>
+
+			<p:column headerText="Genus"  filterBy="#{tree.genus}" >
+				<h:outputText value="#{tree.genus}"  />
+			</p:column>
+
+			<p:column headerText="Species"  filterBy="#{tree.species}">
+				<h:outputText value="#{tree.species}" />
+			</p:column>
+
+			<p:column headerText="Common Name" filterBy="#{tree.commonName}">
+				<h:outputText value="#{tree.commonName}"/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+
+</html>
